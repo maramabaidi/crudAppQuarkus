@@ -6,27 +6,11 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.util.List;
 
+// ✅ Service calls static Panache methods directly
 @ApplicationScoped
 public class MyRemoteService {
-
-    @Inject
-    MyRepository repository;
-
-    public List<MyEntity> getAllEntities() {
-        return repository.listAll();
-    }
-
-    public MyEntity getEntityById(Long id) {
-        return repository.findById(id);
-    }
-
-    @Transactional
-    public void addEntity(MyEntity entity) {
-        repository.persist(entity);
-    }
-
-    @Transactional
-    public boolean deleteEntity(Long id) {
-        return repository.deleteById(id);
-    }
+    public List<MyEntity> getAllEntities() { return MyEntity.listAll(); }
+    public MyEntity getEntityById(Long id) { return MyEntity.findById(id); }
+    @Transactional public void addEntity(MyEntity entity) { entity.persist(); }
+    @Transactional public boolean deleteEntity(Long id) { return MyEntity.deleteById(id); }
 }
